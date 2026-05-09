@@ -34,8 +34,9 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Capacitor Sync
-        # Ab hum direct node_modules se CLI uthayen gy taake path ka masla na aye
-        run: ./node_modules/.bin/cap sync android
+        run: |
+          chmod +x ./node_modules/.bin/cap
+          ./node_modules/.bin/cap sync android
 
       - name: Build APK
         run: |
