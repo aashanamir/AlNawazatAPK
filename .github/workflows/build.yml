@@ -1,0 +1,52 @@
+name: Build AlNawazat APK
+on:
+  push:
+    branches: [ main ] 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Latest stable node version
+
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor-community/admob
+
+      - name: Create Dummy WWW Folder
+        # Capacitor ko build ke liye www folder chahiye hota hy, bhaly hi hum live site use kr rhy hon
+        run: mkdir -p www && echo "<html><body>AlNawazat Live App</body></html>" > www/index.html
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17' # Android builds ke liye zaroori hy
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Capacitor Sync
+        run: |
+          npx cap add android || true # Agar pehle se add hy to error na de
+          npx cap sync android
+
+      - name: Build Android Debug APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AlNawazat-Test-App
+          path: android/app/build/outputs/apk/debug/app-debug.apk
