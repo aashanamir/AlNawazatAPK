@@ -6,6 +6,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # Is se Node 24 ki warning khatam ho jayegi
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4
@@ -13,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Warning ignore karein, 20 zyada stable hai builds ke liye
+          node-version: '24' # Latest Node version
 
       - name: Install Dependencies
         run: npm install --force
@@ -25,13 +28,16 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: '21'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
       - name: Capacitor Sync
-        run: npx cap sync android
+        run: |
+          # Pehle permission deni hogi taake file run ho saky
+          chmod +x ./node_modules/.bin/cap
+          ./node_modules/.bin/cap sync android
 
       - name: Build APK
         run: |
