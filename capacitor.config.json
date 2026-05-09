@@ -4,7 +4,6 @@
   "webDir": "www",
   "server": {
     "url": "https://alnawazat.com",
-    "cleartext": true,
-    "androidScheme": "https"
+    "allowNavigation": ["alnawazat.com", "*.alnawazat.com"]
   }
 }
