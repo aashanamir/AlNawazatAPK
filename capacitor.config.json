@@ -1,0 +1,9 @@
+{
+  "appId": "com.alnawazat.app",
+  "appName": "AlNawazat",
+  "webDir": "www",
+  "server": {
+    "url": "https://alnawazat.com",
+    "cleartext": true
+  }
+}

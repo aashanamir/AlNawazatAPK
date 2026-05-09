@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AlNawazat</string>
+    <string name="title_activity_main">AlNawazat</string>
+    <string name="package_name">com.alnawazat.app</string>
+    <string name="custom_url_scheme">com.alnawazat.app</string>
+</resources>
