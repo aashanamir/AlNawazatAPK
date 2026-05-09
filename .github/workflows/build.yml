@@ -35,6 +35,7 @@ jobs:
 
       - name: Capacitor Sync
         run: |
+          # Pehle permission deni hogi taake file run ho saky
           chmod +x ./node_modules/.bin/cap
           ./node_modules/.bin/cap sync android
 
