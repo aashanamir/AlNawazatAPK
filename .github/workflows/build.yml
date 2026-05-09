@@ -6,6 +6,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # Is se Node 24 ki warning khatam ho jayegi
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4
@@ -13,11 +16,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24' # Latest Node version
 
       - name: Install Dependencies
-        # --include=dev zaroori hy taake CLI mil saky
-        run: npm install --include=dev --force
+        run: npm install --force
 
       - name: Create WWW Folder
         run: mkdir -p www && echo "<html><body>AlNawazat</body></html>" > www/index.html
@@ -32,9 +34,8 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Capacitor Sync
-        # Yahan hum npx use kr rhy hain magar install ke baad
-        run: |
-          npx cap sync android
+        # Ab hum direct node_modules se CLI uthayen gy taake path ka masla na aye
+        run: ./node_modules/.bin/cap sync android
 
       - name: Build APK
         run: |
